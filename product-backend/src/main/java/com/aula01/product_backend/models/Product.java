@@ -2,11 +2,22 @@ package com.aula01.product_backend.models;
 
 public class Product {
     
+    // Atributos
     private int id;
     private String name;
     private double price;
 
-    
+    //Metodos Constrturores
+    public Product(int id, String name, double price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
+
+    public Product(){
+        
+    }
+
     public int getId() {
         return id;
     }
