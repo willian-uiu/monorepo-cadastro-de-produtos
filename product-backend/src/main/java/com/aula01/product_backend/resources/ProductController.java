@@ -2,40 +2,56 @@ package com.aula01.product_backend.resources;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.aula01.product_backend.models.Product;
 
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 @RestController
-public class ProductController {   
-    private List<Product> products = Arrays.asList( new Product(1, "Produto 1", "Descrição 1", 1, true, false, 19.99),
-                                                    new Product(2, "Produto 2", "Descrição 2", 2, false, true, 29.99),
-                                                    new Product(3, "Produto 3", "Descrição 03", 3, false, false, 39.99));
+@CrossOrigin
+public class ProductController {
+    private List<Product> products = new ArrayList<>();
 
-    
+    @PostMapping("products")
+    @CrossOrigin
+    public ResponseEntity<Product> save(@RequestBody Product product) {
+        product.setId(products.size() + 1);
+        products.add(product);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(product.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(product);
+    }
 
     @GetMapping("products/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable int id) {
         Product prod = products.stream()
-                                .filter(product -> product.getId() == id)
-                                .findFirst()
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+                .filter(product -> product.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 
         return ResponseEntity.ok(prod);
-        
+
     }
-    
+
     @GetMapping("products")
     public List<Product> getProducts() {
         return products;
     }
-    
- 
+
 }

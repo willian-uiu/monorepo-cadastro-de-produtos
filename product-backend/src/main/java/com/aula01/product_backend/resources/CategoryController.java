@@ -10,16 +10,19 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.aula01.product_backend.models.Category;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
+@CrossOrigin
 public class CategoryController {
     
     private List<Category> categories = Arrays.asList(new Category(1, "Produção própria"),
                                                       new Category(2, "Nacional"),
-                                                      new Category(3, "Importado"));
+                                                      new Category(3, "Importado"),
+                                                      new Category(4, "Estoque"));
 
     @GetMapping("categories/{id}")
     public ResponseEntity<Category> getCategory(@PathVariable int id) {
