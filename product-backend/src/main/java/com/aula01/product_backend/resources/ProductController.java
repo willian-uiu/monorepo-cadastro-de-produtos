@@ -9,21 +9,15 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.aula01.product_backend.models.Product;
 
-import jakarta.annotation.PostConstruct;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
-public class ProductController {
-
-    
-    private List<Product> products = Arrays.asList( new Product(1, "Produto 1", 19.99),
-                                                    new Product(2, "Produto 2", 29.99),
-                                                    new Product(3, "Produto 3", 39.99));
+public class ProductController {   
+    private List<Product> products = Arrays.asList( new Product(1, "Produto 1", "Descrição 1", 1, true, false, 19.99),
+                                                    new Product(2, "Produto 2", "Descrição 2", 2, false, true, 29.99),
+                                                    new Product(3, "Produto 3", "Descrição 03", 3, false, false, 39.99));
 
     
 
